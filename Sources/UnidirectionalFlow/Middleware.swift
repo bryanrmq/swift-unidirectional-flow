@@ -14,6 +14,22 @@ public protocol Middleware<State, Action> {
     func process(state: State, with action: Action) async -> Action?
 }
 
+// MARK: - AnyMiddleware
+
+public struct AnyMiddleware<AnyState, AnyAction>: Middleware {
+  public typealias State = AnyState
+
+  let wrapped: any Middleware<AnyState, AnyAction>
+
+  public init(wrapped: any Middleware<AnyState, AnyAction>) {
+    self.wrapped = wrapped
+  }
+
+  public func process(state: AnyState, with action: AnyAction) async -> AnyAction? {
+    await wrapped.process(state: state, with: action)
+  }
+}
+
 struct OptionalMiddleware<UnwrappedState, Action>: Middleware {
     typealias State = Optional<UnwrappedState>
     
