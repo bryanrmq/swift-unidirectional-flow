@@ -18,7 +18,7 @@ public final class Store<State, Action>: ObservableObject {
   public init(
     initialState state: State,
     reducer: some Reducer<State, Action>,
-    middlewares: some Collection<any Middleware<State, Action>>) {
+    middlewares: some Collection<AnyMiddleware<State, Action>>) {
     self.state = state
     self.reducer = reducer
     self.middlewares = middlewares
@@ -59,10 +59,11 @@ public final class Store<State, Action>: ObservableObject {
   // MARK: Private
 
   private let reducer: any Reducer<State, Action>
-  private let middlewares: any Collection<any Middleware<State, Action>>
+  private let middlewares: any Collection<AnyMiddleware<State, Action>>
   private let lock = NSRecursiveLock()
 
 }
+
 
 import SwiftUI
 
